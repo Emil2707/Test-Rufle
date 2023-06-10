@@ -3,29 +3,21 @@ from PyQt5.QtWidgets import QApplication, QPushButton, QWidget, QVBoxLayout, QHB
 from instr import *
  
 class FinalWin(QWidget):
-    def __init__(self):
+    def __init__(self, exp):
         super().__init__()
+        self.exp = exp
         self.set_appear()
+        self.results()
         self.initUI()
         self.show()
+        
     def set_appear(self):
         self.setWindowTitle(txt_finalwin)
         self.resize(win_width, win_height)
         self.move(win_x, win_y)
-    def initUI(self):
-        self.txt_index = QLabel(txt_index)
-        self.txt_workheart = QLabel(txt_workheart)
-        
-        self.txt_workheart= QLabel(txt_workheart + self.results ())
-        self.txt_index = QLabel(txt_index + str(self.index))    
-        self.v_line = QVBoxLayout()
-        self.v_line.addWidget(self.txt_index)
-        self.v_line.addWidget(self.txt_workheart)
-        self.setLayout(self.v_line)
-    def results (self):
-        if self.exp.age < 7:
-            self.index = 0
-            return "нет данных для такого возраста"
+    
+
+    def results(self): 
         self.index = (4 * (int (self.exp.t1) + int(self.exp.t2) + int(self.exp.t3)) -200) / 10
         if self.exp.age == 7 or self.exp.age == 8:
             if self.index >= 21:
@@ -82,3 +74,10 @@ class FinalWin(QWidget):
                 return txt_res4 
             else:
                 return txt_res5
+    def initUI(self):
+        self.txt_workheart= QLabel(txt_workheart + self.results())
+        self.txt_index = QLabel(txt_index + str(self.index))    
+        self.v_line = QVBoxLayout()
+        self.v_line.addWidget(self.txt_index, alignment = Qt.AlignCenter)
+        self.v_line.addWidget(self.txt_workheart, alignment = Qt.AlignCenter)
+        self.setLayout(self.v_line)
